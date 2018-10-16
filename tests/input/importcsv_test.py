@@ -61,3 +61,11 @@ class ImportCSVFileTest:
                                                   has_ids=self._test_data[testnum][2])
         self.dataset_basic_test(dataset, self._test_data_basic_results[testnum])
         self.get_object_test(dataset, self._test_data_object_test[testnum])
+
+def run_importcsv_test():
+    import_csv_test = ImportCSVFileTest()
+    import_csv_test.test_no_file()
+    import_csv_test.test_file(0)
+    import_csv_test.test_file(1)
+    import_csv_test.test_file(2)
+    import_csv_test.test_file(3)
