@@ -1,4 +1,4 @@
-import analysis.normalize
+import normalize
 import numpy as np
 
 
@@ -7,7 +7,7 @@ def isclose(a, b, rel_tol=1e-09, abs_tol=0.0):
 
 
 def run_test(test):
-    calc = analysis.normalize.NormalizeData()
+    calc = normalize.NormalizeData()
     result = calc.perform(test[0], test[1])
     assert result == test[2]
     if (result):

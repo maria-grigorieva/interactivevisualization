@@ -1,6 +1,7 @@
 import copy
 import numpy as np
-import analysis.calculationbasis
+import calculationbasis
+import changebasis
 
 
 class VisDataSet:
@@ -60,7 +61,7 @@ class VisDataSet:
                                  "Check if the dataset is ready for calculations.")
 
     def apply_calculation(self, calculation, parameters, should_be_saved=False):
-        if isinstance(calculation, analysis.calculationbasis.CalculationBase) and self.__number_ready:
+        if isinstance(calculation, calculationbasis.CalculationBase) and self.__number_ready:
             if should_be_saved:
                 result = calculation.perform(self._data_set_array, parameters)
                 self._saved_operations.append([calculation, parameters, should_be_saved, result])
@@ -70,7 +71,7 @@ class VisDataSet:
         return None
 
     def apply_changes(self, changes, parameters, should_be_saved=False):
-        if isinstance(changes, analysis.changebasis.ChangeBasis) and self.__number_ready:
+        if isinstance(changes, changebasis.ChangeBasis) and self.__number_ready:
             if should_be_saved:
                 result = changes.perform(self._data_set_array, parameters)
                 self._saved_operations.append([changes, parameters, should_be_saved, result])

@@ -1,8 +1,8 @@
-import analysis.calculationbasis
+import calculationbasis
 import numpy as np
 
 
-class BasicNumbersCalculation(analysis.calculationbasis.CalculationBase):
+class BasicNumbersCalculation(calculationbasis.CalculationBase):
 
     def perform(self, data, parameters):
         resultmax = data.max(0)

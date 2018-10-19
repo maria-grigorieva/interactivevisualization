@@ -1,8 +1,8 @@
 import numpy as np
-import analysis.changebasis
+import changebasis
 
 
-class NormalizeData(analysis.changebasis.ChangeBasis):
+class NormalizeData(changebasis.ChangeBasis):
     def perform(self, data, parameters):
         if not isinstance(data, np.ndarray):
             return False

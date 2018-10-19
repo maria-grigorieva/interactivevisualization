@@ -1,4 +1,4 @@
-import input.importcsv
+import importcsv
 
 
 def isclose(a, b, rel_tol=1e-09, abs_tol=0.0):
@@ -39,7 +39,7 @@ class ImportCSVFileTest:
                                ['third', ['third', [-2.1, -5, 2, 12, 1], None]],
                                [1, ['second', [4.5, 5, 2.3, 1, 2.77], None]]]]
     def test_no_file(self):
-        assert input.importcsv.import_csv_file('') == None
+        assert importcsv.import_csv_file('') == None
 
     def dataset_basic_test(self, test_dataset, results):
         for i in range(len(test_dataset._max_values)):
@@ -56,7 +56,7 @@ class ImportCSVFileTest:
         assert test_dataset.get_object_by_id(tests[1][0]) == tests[1][1]
 
     def test_file(self, testnum):
-        dataset = input.importcsv.import_csv_file(self._test_data[testnum][0],
+        dataset = importcsv.import_csv_file(self._test_data[testnum][0],
                                                   has_names=self._test_data[testnum][1],
                                                   has_ids=self._test_data[testnum][2])
         self.dataset_basic_test(dataset, self._test_data_basic_results[testnum])

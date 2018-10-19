@@ -1,4 +1,4 @@
-import analysis.basicnumbers
+import basicnumbers
 import numpy as np
 
 
@@ -7,7 +7,7 @@ def isclose(a, b, rel_tol=1e-09, abs_tol=0.0):
 
 
 def run_test(test):
-    calc = analysis.basicnumbers.BasicNumbersCalculation()
+    calc = basicnumbers.BasicNumbersCalculation()
     result = calc.perform(test[0], test[1])
     for i in range(len(result)):
         for j in range(len(result[i])):
