@@ -105,7 +105,7 @@ class VisDataSetWithoutIDTest:
         assert test_dataset.get_object_by_number(1) == [1, [2, 2, 2, 2], None]
 
 
-import basicnumbers
+import statistics
 
 
 class VisDataSetCalculationTest:
@@ -122,7 +122,7 @@ class VisDataSetCalculationTest:
 
     def run_basic_numbers(self, num):
         dataset = self.create_testdataset(num)
-        calc_task = basicnumbers.BasicNumbersCalculation()
+        calc_task = statistics.BasicStatistics()
         assert dataset.apply_calculation(calc_task, []) is None
         assert dataset.calculation_ready
         if dataset.calculation_ready:

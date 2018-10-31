@@ -1,4 +1,4 @@
-import basicnumbers
+import statistics
 import pandas as pd
 
 
@@ -7,7 +7,7 @@ def isclose(a, b, rel_tol=1e-09, abs_tol=0.0):
 
 
 def run_test(test):
-    calc = basicnumbers.BasicNumbersCalculation()
+    calc = statistics.BasicStatistics()
     result = calc.perform(test[0], test[1])
     for i in range(len(result)):
         for j in range(len(result[i])):
