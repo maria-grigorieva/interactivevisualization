@@ -1,6 +1,8 @@
 import copy
 import numpy as np
-import analysis.calculationbasis
+import pandas as pd
+import calculationbasis
+import changebasis
 
 
 class VisDataSet:
@@ -12,9 +14,6 @@ class VisDataSet:
     __number_ready = False
     _clusters_set = []
     _saved_operations = []
-    _max_values = []
-    _min_values = []
-    _sum_values = []
 
     # Adds the given object to the dataset
     def add_object(self, new_object):
@@ -41,7 +40,9 @@ class VisDataSet:
 
     def __get_calculation(self):
         if not self.__number_ready:
-            self._data_set_array = np.array(self._data_set_list, dtype=float)
+            # self._data_set_array = np.array(self._data_set_list, dtype=float)
+            self._data_set_array = pd.DataFrame(data=self._data_set_list, index=self._id_of_the_objects,
+                                                columns=self._names_of_dimensions[1:], dtype=float)
             self.__number_ready = True
         return True
 
@@ -60,7 +61,7 @@ class VisDataSet:
                                  "Check if the dataset is ready for calculations.")
 
     def apply_calculation(self, calculation, parameters, should_be_saved=False):
-        if isinstance(calculation, analysis.calculationbasis.CalculationBase) and self.__number_ready:
+        if isinstance(calculation, calculationbasis.CalculationBase) and self.__number_ready:
             if should_be_saved:
                 result = calculation.perform(self._data_set_array, parameters)
                 self._saved_operations.append([calculation, parameters, should_be_saved, result])
@@ -70,14 +71,14 @@ class VisDataSet:
         return None
 
     def apply_changes(self, changes, parameters, should_be_saved=False):
-        if isinstance(changes, analysis.changebasis.ChangeBasis) and self.__number_ready:
+        if isinstance(changes, changebasis.ChangeBasis) and self.__number_ready:
             if should_be_saved:
                 result = changes.perform(self._data_set_array, parameters)
                 self._saved_operations.append([changes, parameters, should_be_saved, result])
             else:
                 result = changes.perform(self._data_set_array, parameters)
             if result:
-                self._data_set_list = self._data_set_array.tolist()
+                self._data_set_list = self._data_set_array.values.tolist()
             return result
         return None
 
@@ -100,26 +101,6 @@ class VisDataSetWithID(VisDataSet):
         temp_object = copy.copy(new_object)
         temp_object.remove(new_object[0])
         self._data_set_list.append(temp_object)
-
-        if 1 == len(self._data_set_list):
-            self._sum_values = copy.copy(temp_object)
-            self._max_values = copy.copy(temp_object)
-            self._min_values = copy.copy(temp_object)
-            return True
-
-        if len(temp_object) != len(self._sum_values):
-            self._sum_values = [0] * len(temp_object)
-        if len(temp_object) != len(self._max_values):
-            self._max_values = copy.copy(temp_object)
-        if len(temp_object) != len(self._min_values):
-            self._min_values = copy.copy(temp_object)
-
-        for i in range(len(temp_object)):
-            self._sum_values[i] += temp_object[i]
-            if temp_object[i] > self._max_values[i]:
-                self._max_values[i] = temp_object[i]
-            if temp_object[i] < self._min_values[i]:
-                self._min_values[i] = temp_object[i]
         self.__number_ready = False
         return True
 
@@ -128,7 +109,7 @@ class VisDataSetWithoutID(VisDataSet):
 
     # Adds the given object to the dataset
     def add_object(self, new_object):
-        if len(new_object) != len(self._names_of_dimensions):
+        if len(new_object) != len(self._names_of_dimensions) - 1:
             return False
         for i in new_object:
             if not (type(i) is float or type(i) is int):
@@ -137,26 +118,6 @@ class VisDataSetWithoutID(VisDataSet):
 
         temp_object = copy.copy(new_object)
         self._data_set_list.append(temp_object)
-
-        if 1 == len(self._data_set_list):
-            self._sum_values = copy.copy(temp_object)
-            self._max_values = copy.copy(temp_object)
-            self._min_values = copy.copy(temp_object)
-            return True
-
-        if len(temp_object) != len(self._sum_values):
-            self._sum_values = [0] * len(temp_object)
-        if len(temp_object) != len(self._max_values):
-            self._max_values = copy.copy(temp_object)
-        if len(temp_object) != len(self._min_values):
-            self._min_values = copy.copy(temp_object)
-
-        for i in range(len(temp_object)):
-            self._sum_values[i] += temp_object[i]
-            if temp_object[i] > self._max_values[i]:
-                self._max_values[i] = temp_object[i]
-            if temp_object[i] < self._min_values[i]:
-                self._min_values[i] = temp_object[i]
         self.__number_ready = False
         return True
 
@@ -173,6 +134,8 @@ def create_dataset_with_names(dimension_names=None, has_id=True):
     else:
         result = VisDataSetWithoutID()
     result._names_of_dimensions = copy.deepcopy(dimension_names)
+    if not has_id:
+        result._names_of_dimensions.insert(0, "ID")
     result._id_of_the_objects = []
     result._data_set_list = []
     result._used_ids = set()
