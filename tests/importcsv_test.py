@@ -10,23 +10,11 @@ class ImportCSVFileTest:
                   ['tests/dataset/testdata_noid_names.csv', True, False],
                   ['tests/dataset/testdata_id_nonames.csv', False, True],
                   ['tests/dataset/testdata_id_names.csv', True, True]]
-    _test_data_basic_results = [[[4.5, 12, 2.3, 12, 2.77],
-                                 [-5, -5, -5, 1, 1],
-                                 [-1.4, 13.3, 0.7, 18.5, 7.37],
-                                 ['X1', 'X2', 'X3', 'X4', 'X5']],
-                                [[4.5, 12, 2.3, 12, 2.77],
-                                 [-5, -5, -5, 1, 1],
-                                 [-1.4, 13.3, 0.7, 18.5, 7.37],
-                                 ['X', 'Y', 'Z', 'T', 'G']],
-                                [[4.5, 12, 2.3, 12, 2.77],
-                                 [-5, -5, -5, 1, 1],
-                                 [-1.4, 13.3, 0.7, 18.5, 7.37],
-                                 ['ID', 'X1', 'X2', 'X3', 'X4', 'X5']],
-                                [[4.5, 12, 2.3, 12, 2.77],
-                                 [-5, -5, -5, 1, 1],
-                                 [-1.4, 13.3, 0.7, 18.5, 7.37],
-                                 ['Names', 'X', 'Y', 'Z', 'T', 'G']]]
-    _test_data_object_test = [[[0, [0, [1.2, 1.3, 1.4, 1.5, 1.6], None]],
+    _test_data_basic_results = [[['ID', 'X1', 'X2', 'X3', 'X4', 'X5']],
+                                [['ID', 'X', 'Y', 'Z', 'T', 'G']],
+                                [['ID', 'X1', 'X2', 'X3', 'X4', 'X5']],
+                                [['Names', 'X', 'Y', 'Z', 'T', 'G']]]
+    _test_data_object_results = [[[0, [0, [1.2, 1.3, 1.4, 1.5, 1.6], None]],
                                [2, [2, [-2.1, -5, 2, 12, 1], None]],
                                [1, [1, [4.5, 5, 2.3, 1, 2.77], None]]],
                               [[0, [0, [1.2, 1.3, 1.4, 1.5, 1.6], None]],
@@ -42,13 +30,7 @@ class ImportCSVFileTest:
         assert importcsv.import_csv_file('') == None
 
     def dataset_basic_test(self, test_dataset, results):
-        for i in range(len(test_dataset._max_values)):
-            assert isclose(test_dataset._max_values[i], results[0][i])
-        for i in range(len(test_dataset._min_values)):
-            assert isclose(test_dataset._min_values[i], results[1][i])
-        for i in range(len(test_dataset._sum_values)):
-            assert isclose(test_dataset._sum_values[i], results[2][i])
-        assert test_dataset._names_of_dimensions == results[3]
+        assert test_dataset._names_of_dimensions == results[0]
 
     def get_object_test(self, test_dataset, tests):
         assert test_dataset.get_object_by_number(tests[2][0]) == tests[2][1]
@@ -60,12 +42,15 @@ class ImportCSVFileTest:
                                                   has_names=self._test_data[testnum][1],
                                                   has_ids=self._test_data[testnum][2])
         self.dataset_basic_test(dataset, self._test_data_basic_results[testnum])
-        self.get_object_test(dataset, self._test_data_object_test[testnum])
+        self.get_object_test(dataset, self._test_data_object_results[testnum])
 
 def run_importcsv_test():
+    print("Testing import csv:")
     import_csv_test = ImportCSVFileTest()
+    print("Testing no file given:")
     import_csv_test.test_no_file()
-    import_csv_test.test_file(0)
-    import_csv_test.test_file(1)
-    import_csv_test.test_file(2)
-    import_csv_test.test_file(3)
+    print("Passed")
+    for i in range(len(import_csv_test._test_data)):
+        print(f"Testing testfile number {i}:")
+        import_csv_test.test_file(i)
+        print("Passed")

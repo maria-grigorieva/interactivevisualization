@@ -1,12 +1,15 @@
 import calculationbasis
-import numpy as np
+import pandas as pd
 
 
 class BasicNumbersCalculation(calculationbasis.CalculationBase):
 
     def perform(self, data, parameters):
-        resultmax = data.max(0)
-        resultmin = data.min(0)
-        resultsum = data.sum(0)
-        resultavg = data.sum(0) / data.shape[0]
-        return [resultmax, resultmin, resultsum, resultavg]
+        if isinstance(data, pd.DataFrame):
+            resultmax = data.max()
+            resultmin = data.min()
+            resultsum = data.sum()
+            resultavg = data.sum() / data.shape[0]
+            return [resultmax, resultmin, resultsum, resultavg]
+
+        return None

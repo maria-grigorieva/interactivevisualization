@@ -1,5 +1,5 @@
 import basicnumbers
-import numpy as np
+import pandas as pd
 
 
 def isclose(a, b, rel_tol=1e-09, abs_tol=0.0):
@@ -17,14 +17,14 @@ def run_test(test):
 
 
 def run_calculationbasis_test():
-    testset = [[np.array([[1, 2, 3, 4], [4, 3, 2, 1], [-1, -2, -3, -4], [0, 0, 0, 0], [0, 0, 0, 0]]),
+    testset = [[pd.DataFrame([[1, 2, 3, 4], [4, 3, 2, 1], [-1, -2, -3, -4], [0, 0, 0, 0], [0, 0, 0, 0]]),
                 [],
-                [np.array([4, 3, 3, 4]), np.array([-1, -2, -3, -4]), np.array([4, 3, 2, 1]),
-                 np.array([0.8, 0.6, 0.4, 0.2])]],
-               [np.array([[1, 2, 3, 4], [4, 3, 2, 1]]),
+                [[4, 3, 3, 4], [-1, -2, -3, -4], [4, 3, 2, 1],
+                 [0.8, 0.6, 0.4, 0.2]]],
+               [pd.DataFrame([[1, 2, 3, 4], [4, 3, 2, 1]]),
                 [],
-                [np.array([4, 3, 3, 4]), np.array([1, 2, 2, 1]), np.array([5, 5, 5, 5]),
-                 np.array([2.5, 2.5, 2.5, 2.5])]]]
+                [[4, 3, 3, 4], [1, 2, 2, 1], [5, 5, 5, 5],
+                 [2.5, 2.5, 2.5, 2.5]]]]
 
     for i in range(len(testset)):
         assert run_test(testset[i])

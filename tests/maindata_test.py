@@ -12,9 +12,6 @@ class VisDataSetWithIDTest:
     _data_set14 = ["fourth", 1, 1, 1, 1]
     _data_set_fail1 = ["test", "1", 1, 1, 1]
     _data_set_fail2 = ["test", [1, 2], 1, 1, 1]
-    _data_set1_max = [2, 6, 3, 2]
-    _data_set1_min = [-3.4, 1, 1, 0]
-    _data_set1_sum = [0.6, 10, 7, 4]
 
     def create_functions_test1(self):
         assert maindata.create_dataset_with_names(None) is None
@@ -45,22 +42,10 @@ class VisDataSetWithIDTest:
 
     def dataset_basic_test1(self):
         test_dataset = self.create_testdataset1()
-        for i in range(len(test_dataset._max_values)):
-            assert isclose(test_dataset._max_values[i], self._data_set1_max[i])
-        for i in range(len(test_dataset._min_values)):
-            assert isclose(test_dataset._min_values[i], self._data_set1_min[i])
-        for i in range(len(test_dataset._sum_values)):
-            assert isclose(test_dataset._sum_values[i], self._data_set1_sum[i])
         assert test_dataset._names_of_dimensions == ["ID", "X1", "X2", "X3", "X4"]
 
     def dataset_basic_test2(self):
         test_dataset = self.create_testdataset2()
-        for i in range(len(test_dataset._max_values)):
-            assert isclose(test_dataset._max_values[i], self._data_set1_max[i])
-        for i in range(len(test_dataset._min_values)):
-            assert isclose(test_dataset._min_values[i], self._data_set1_min[i])
-        for i in range(len(test_dataset._sum_values)):
-            assert isclose(test_dataset._sum_values[i], self._data_set1_sum[i])
         assert test_dataset._names_of_dimensions == ["Iden", "X", "Y", "Z", "T"]
 
     def get_object_test(self):
@@ -77,9 +62,6 @@ class VisDataSetWithoutIDTest:
     _data_set14 = [1, 1, 1, 1]
     _data_set_fail1 = ["1", 1, 1, 1]
     _data_set_fail2 = [[1, 2], 1, 1, 1]
-    _data_set1_max = [2, 6, 3, 2]
-    _data_set1_min = [-3.4, 1, 1, 0]
-    _data_set1_sum = [0.6, 10, 7, 4]
 
     def create_functions_test1(self):
         assert maindata.create_dataset_with_names(None, has_id=False) is None
@@ -110,23 +92,11 @@ class VisDataSetWithoutIDTest:
 
     def dataset_basic_test1(self):
         test_dataset = self.create_testdataset1()
-        for i in range(len(test_dataset._max_values)):
-            assert isclose(test_dataset._max_values[i], self._data_set1_max[i])
-        for i in range(len(test_dataset._min_values)):
-            assert isclose(test_dataset._min_values[i], self._data_set1_min[i])
-        for i in range(len(test_dataset._sum_values)):
-            assert isclose(test_dataset._sum_values[i], self._data_set1_sum[i])
-        assert test_dataset._names_of_dimensions == ["X1", "X2", "X3", "X4"]
+        assert test_dataset._names_of_dimensions == ["ID", "X1", "X2", "X3", "X4"]
 
     def dataset_basic_test2(self):
         test_dataset = self.create_testdataset2()
-        for i in range(len(test_dataset._max_values)):
-            assert isclose(test_dataset._max_values[i], self._data_set1_max[i])
-        for i in range(len(test_dataset._min_values)):
-            assert isclose(test_dataset._min_values[i], self._data_set1_min[i])
-        for i in range(len(test_dataset._sum_values)):
-            assert isclose(test_dataset._sum_values[i], self._data_set1_sum[i])
-        assert test_dataset._names_of_dimensions == ["X", "Y", "Z", "T"]
+        assert test_dataset._names_of_dimensions == ["ID", "X", "Y", "Z", "T"]
 
     def get_object_test(self):
         test_dataset = self.create_testdataset1()
